@@ -35,11 +35,9 @@ class FlickrSearchActivity : AppCompatActivity(), FlickrSearchActivityListener {
         component_layout.visibility = View.VISIBLE
     }
 
-    override fun callBack(value: String) {
+    override fun onImages(value: String) {
         Log.d("kotlintest", value)
-        val basejson: JSONObject = JSONObject(value)
-        val photosjson = basejson.getJSONObject("photos")
-        val photosarray = photosjson.getJSONArray("photo")
+
         val intent = Intent(this, ImageListingActivity::class.java)
         intent.putExtra("imgdata", value)
         intent.putExtra("page", 1)

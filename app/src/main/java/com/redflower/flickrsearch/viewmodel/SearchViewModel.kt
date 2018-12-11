@@ -7,6 +7,7 @@ import com.redflower.flickrsearch.asynctasks.ImagefetchAsynctask
 import com.redflower.flickrsearch.interfaces.AsyncListener
 import com.redflower.flickrsearch.interfaces.FlickrSearchActivityListener
 import com.redflower.flickrsearch.utils.FlickrSearchConstants
+import org.json.JSONObject
 import java.net.URLEncoder
 
 class SearchViewModel(var listener: FlickrSearchActivityListener) : BaseObservable(), AsyncListener {
@@ -15,7 +16,20 @@ class SearchViewModel(var listener: FlickrSearchActivityListener) : BaseObservab
 
     override fun onResponse(string: String?) {
         listener.dismisLoading()
-        listener.callBack(string as String)
+
+        if(validateAvailablity(string)) {
+            listener.onImages(string as String)
+        }else{
+            listener.showAlert(FlickrSearchConstants.NO_IMAGES_FOUND)
+        }
+    }
+    fun validateAvailablity(string: String?): Boolean{
+        string?:return false
+        val basejson: JSONObject = JSONObject(string)
+        val photosjson = basejson.getJSONObject("photos")
+        val totalimages: Int = photosjson.getInt("total")
+        if(totalimages>0) return true
+        return false
     }
 
     override fun onError() {

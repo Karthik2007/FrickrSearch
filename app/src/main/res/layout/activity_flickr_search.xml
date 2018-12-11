@@ -28,6 +28,8 @@
                     android:layout_marginRight="3dp"
                     android:hint="Search Flickr"
                     android:layout_weight="2"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:background="@drawable/search_text_bg"
                     android:paddingLeft="10dp"
                     android:fontFamily="sans-serif"
