@@ -26,16 +26,20 @@ class ImageListingAdapter(val imageArray: ArrayList<ImageItem>, var context: Con
     override fun getItemCount(): Int = imageArray.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        /* Un comment below four lines to enable Glide image loader*/
 //        GlideApp.with(context)
 //            .load(URL(imageArray.get(position).getimageurl()))
 //            .placeholder(R.drawable.gridimagebg)
 //            .into(holder.imageView)
-        holder.loadImage(imageArray.get(position))
+
+
+
+        holder.loadImage(imageArray.get(position))   // Custom image loader
 
     }
 
     class MyViewHolder(val option_item: View) : RecyclerView.ViewHolder(option_item) {
-        lateinit var imageView: ImageView
+         var imageView: ImageView
         private lateinit var imageItem: ImageItem
 
         init {

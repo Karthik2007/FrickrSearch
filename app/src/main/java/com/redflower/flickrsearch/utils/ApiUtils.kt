@@ -1,8 +1,5 @@
 package com.redflower.flickrsearch.utils
 
-import android.content.Context
-import android.util.Log
-import org.json.JSONArray
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -14,14 +11,12 @@ import javax.net.ssl.HttpsURLConnection
 class ApiUtils {
     companion object {
         fun createhttprequest(urlstring: String) :String? {
-            Log.d("searchurl",urlstring)
             val url = URL(urlstring)
             val httpClient = url.openConnection() as HttpURLConnection
             if (httpClient.responseCode == HttpsURLConnection.HTTP_OK) {
                 try {
                     val stream = BufferedInputStream(httpClient.inputStream)
                     val data: String = readStream(inputStream = stream)
-                    Log.d("async",data)
                     return data
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -40,6 +35,7 @@ class ApiUtils {
             return stringBuilder.toString()
         }
 
+        /* url to fetch images for particular search text. Change  api_key param value if key expired*/
         fun buildUrl( seartchtext: String,page: Int): String {
             var url: String = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=3e7cc266ae2b0e0d78e279ce8e361736&format=json&nojsoncallback=1&safe_search=1&text=$seartchtext&page=$page"
             return url

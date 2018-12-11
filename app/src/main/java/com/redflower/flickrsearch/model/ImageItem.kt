@@ -1,5 +1,6 @@
 package com.redflower.flickrsearch.model
 
+
 class ImageItem {
     var id: String
     var ower: String
@@ -17,6 +18,7 @@ class ImageItem {
         this.title = title
     }
 
+    //images for fetch single image
     fun getimageurl(): String {
         return "https://farm$farm.staticflickr.com/$server/${id}_${secret}_n.jpg"
     }

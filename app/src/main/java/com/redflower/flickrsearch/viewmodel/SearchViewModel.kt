@@ -7,28 +7,34 @@ import com.redflower.flickrsearch.asynctasks.ImagefetchAsynctask
 import com.redflower.flickrsearch.interfaces.AsyncListener
 import com.redflower.flickrsearch.interfaces.FlickrSearchActivityListener
 import com.redflower.flickrsearch.utils.FlickrSearchConstants
+import org.json.JSONException
 import org.json.JSONObject
 import java.net.URLEncoder
 
 class SearchViewModel(var listener: FlickrSearchActivityListener) : BaseObservable(), AsyncListener {
     var searchkeys: String = ""
 
-
     override fun onResponse(string: String?) {
         listener.dismisLoading()
 
-        if(validateAvailablity(string)) {
-            listener.onImages(string as String)
-        }else{
+        if (validateAvailablity(string)) {
+            listener.onImagesResponse(string as String)
+        } else {
             listener.showAlert(FlickrSearchConstants.NO_IMAGES_FOUND)
         }
     }
-    fun validateAvailablity(string: String?): Boolean{
-        string?:return false
-        val basejson: JSONObject = JSONObject(string)
-        val photosjson = basejson.getJSONObject("photos")
-        val totalimages: Int = photosjson.getInt("total")
-        if(totalimages>0) return true
+
+    fun validateAvailablity(string: String?): Boolean {
+        string ?: return false
+        try {
+            val basejson: JSONObject = JSONObject(string)
+            val photosjson = basejson.getJSONObject(FlickrSearchConstants.KEY_PHOTO_JSON)
+            val totalimages: Int = photosjson.getInt(FlickrSearchConstants.KEY_PHOTO_TOTAL_IMAGES_COUNT)
+            if (totalimages > 0) return true
+        } catch (e: JSONException) {
+            e.printStackTrace()
+            return false
+        }
         return false
     }
 

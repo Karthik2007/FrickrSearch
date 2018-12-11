@@ -33,8 +33,8 @@ class ImageListingActivity : AppCompatActivity(), ImageListingActivityListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.image_listing_view)
-        val imagearray = intent.getStringExtra("imgdata")
-        val searchString = intent.getStringExtra("searchstring")
+        val imagearray = intent.getStringExtra(FlickrSearchConstants.EXTRA_IMAGEDATA)
+        val searchString = intent.getStringExtra(FlickrSearchConstants.EXTRA_SEARCHSTRING)
         imagelistingVM = ImageListingViewModel(imagearray, searchString, this)
         initizeRecyclerview()
     }
@@ -51,6 +51,8 @@ class ImageListingActivity : AppCompatActivity(), ImageListingActivityListener {
         }
     }
 
+
+    //to check Recyclerview reached bottom
     var onScrollListeners: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)

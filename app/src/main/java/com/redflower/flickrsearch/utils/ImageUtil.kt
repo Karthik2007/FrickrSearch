@@ -3,7 +3,6 @@ package com.redflower.flickrsearch.utils
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
-import android.util.Log
 import android.util.LruCache
 import android.widget.ImageView
 import java.net.URL
@@ -20,16 +19,14 @@ object ImageUtil {
 
         // Use 1/8th of the available memory for this memory cache.
         val cacheSize = maxMemory / 8
-        Log.d("memorych"," $cacheSize")
         mMemoryCache = object : LruCache<String, Bitmap>(cacheSize) {
 
             override fun sizeOf(key: String, bitmap: Bitmap): Int {
-                // The cache size will be measured in kilobytes rather than
-                // number of items.
                 return bitmap.byteCount / 1024
             }
         }
     }
+
 
     fun setBitmap(imageview: ImageView, url: String) {
         if(getBitmapFromMemCache(url)!=null){
@@ -40,16 +37,20 @@ object ImageUtil {
         }
     }
 
+
+    //Load Bitmap to memory Cache
     fun addBitmapToMemoryCache(key: String, bitmap: Bitmap) {
         if (getBitmapFromMemCache(key) == null) {
             mMemoryCache.put(key, bitmap)
         }
     }
 
+    // Get Bitmap from memory cache. If it is not available it will return null
     fun getBitmapFromMemCache(key: String): Bitmap? {
         return mMemoryCache.get(key)
     }
 
+    //Loading images from url
     class Imagefetchtask(var url: String, var imageview: ImageView) : AsyncTask<Unit, Unit, Bitmap>() {
         lateinit var bitmap: Bitmap
         override fun doInBackground(vararg params: Unit?): Bitmap {
