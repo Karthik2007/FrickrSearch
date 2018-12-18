@@ -49,6 +49,7 @@ class ImageListingAdapter(val imageArray: ArrayList<ImageItem>, var context: Con
         fun loadImage(imageItem: ImageItem) {
             this.imageItem = imageItem
             imageView.setImageBitmap(null)
+            imageView.settag(this.imageItem.getimageurl())
             ImageUtil.setBitmap(imageView, this.imageItem.getimageurl())
         }
     }
